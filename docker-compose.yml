@@ -34,7 +34,17 @@ services:
       - "5432:5432"
     networks:
       - app-network
-
+      
+  nginx:
+    build:
+      context: ./nginx  # Сборка из папки Nginx
+    ports:
+      - "80:80"  # Прокси на порт 80
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - app-network
 networks:
   app-network:
     driver: bridge
