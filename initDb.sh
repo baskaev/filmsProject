@@ -9,8 +9,8 @@ DB_NAME="films_db"
 # Export password for non-interactive mode
 export PGPASSWORD=$DB_PASSWORD
 
-# Create table SQL
-CREATE_TABLE_SQL="""
+# Create table SQL for movies
+CREATE_MOVIES_TABLE_SQL="""
 CREATE TABLE IF NOT EXISTS movies (
     code VARCHAR(255) PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
@@ -21,8 +21,8 @@ CREATE TABLE IF NOT EXISTS movies (
 );
 """
 
-# Insert data SQL
-INSERT_DATA_SQL="""
+# Insert data SQL for movies
+INSERT_MOVIES_DATA_SQL="""
 INSERT INTO movies (code, title, rating, year, image_link) VALUES
 ('tt0068646', 'The Godfather', '9.2', '1972', 'https://m.media-amazon.com/images/I/51GrHPaq8QL._AC_.jpg'),
 ('tt0468569', 'The Dark Knight', '9.0', '2008', 'https://m.media-amazon.com/images/I/71gRxqSToZL._AC_SY679_.jpg'),
@@ -36,16 +36,36 @@ INSERT INTO movies (code, title, rating, year, image_link) VALUES
 ON CONFLICT (code) DO NOTHING;
 """
 
+# Create table SQL for tasks
+CREATE_TASKS_TABLE_SQL="""
+CREATE TABLE IF NOT EXISTS tasks (
+    id SERIAL PRIMARY KEY,
+    task_name VARCHAR(255) NOT NULL,
+    isTimerUsed BOOLEAN DEFAULT FALSE,
+    runInTime TIMESTAMPTZ,
+    priority INT DEFAULT 0,
+    paramsJson JSONB,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    done_at TIMESTAMPTZ
+);
+"""
+
 # Execute commands
-psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -c "$CREATE_TABLE_SQL"
+psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -c "$CREATE_MOVIES_TABLE_SQL"
 if [ $? -ne 0 ]; then
-  echo "Failed to create table."
+  echo "Failed to create movies table."
   exit 1
 fi
 
-psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -c "$INSERT_DATA_SQL"
+psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -c "$INSERT_MOVIES_DATA_SQL"
 if [ $? -ne 0 ]; then
-  echo "Failed to insert data."
+  echo "Failed to insert movies data."
+  exit 1
+fi
+
+psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -c "$CREATE_TASKS_TABLE_SQL"
+if [ $? -ne 0 ]; then
+  echo "Failed to create tasks table."
   exit 1
 fi
 
