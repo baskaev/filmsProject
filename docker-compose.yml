@@ -19,6 +19,14 @@ services:
       - app-network
     depends_on:
       - db
+
+  taskworker:
+    build:
+      context: ./taskworker
+    networks:
+      - app-network
+    depends_on:
+      - db
       - rod-manager
     environment:
       ROD_REMOTE: "ws://rod-manager:7317" # Адрес Rod Manager для подключения

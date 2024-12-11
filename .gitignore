@@ -2,3 +2,4 @@ db/
 backfilms/
 vue-frontend/
 nginx/
+taskworker/
