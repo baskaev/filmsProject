@@ -1,6 +1,15 @@
 #version: '3.8'
 
 services:
+
+  rod-manager:
+    image: ghcr.io/go-rod/rod:v0.114.8
+    container_name: rod-manager
+    ports:
+      - "7317:7317"
+    #environment:
+      # Добавьте переменные окружения, если нужно
+
   backend:
     build:
       context: ./backfilms
@@ -10,6 +19,11 @@ services:
       - app-network
     depends_on:
       - db
+      - rod-manager
+    environment:
+      ROD_REMOTE: "ws://rod-manager:7317" # Адрес Rod Manager для подключения
+    links:
+       - rod-manager
 
   frontend:
     build:
