@@ -7,6 +7,12 @@ repos=(
   "https://github.com/baskaev/backfilms"
 )
 
+# Папка для хранения клонированных репозиториев
+dest_folder="$HOME/Рабочий стол/filmsProject"
+
+# Переходим в папку, где будут клонироваться репозитории
+cd "$dest_folder"
+
 # Клонирование каждого репозитория из списка
 for repo in "${repos[@]}"
 do

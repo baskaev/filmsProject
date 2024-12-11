@@ -1,8 +1,7 @@
 #!/bin/bash
 
-
 # Папка, в которой находятся ваши проекты
-base_dir=""
+base_dir="$HOME/Рабочий стол/filmsProject"
 
 # Перебираем все подпапки в base_dir
 for dir in "$base_dir"/*; do
