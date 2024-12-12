@@ -5,6 +5,8 @@ services:
   rod-manager:
     image: ghcr.io/go-rod/rod:v0.114.8
     container_name: rod-manager
+    networks:
+      - app-network
     ports:
       - "7317:7317"
     #environment:
