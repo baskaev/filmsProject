@@ -45,8 +45,8 @@ CREATE TABLE IF NOT EXISTS tasks (
     runInTime TIMESTAMPTZ,
     priority INT DEFAULT 0,
     paramsJson JSONB,
-    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    done_at TIMESTAMPTZ
+    done_at TIMESTAMPTZ,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 """
 
